@@ -17,11 +17,7 @@ const FeedbackStats = ({ feedback }) => {
 };
 
 FeedbackStats.propTypes = {
-    feedback: PropTypes.arrayOf({
-        id: PropTypes.number.isRequired,
-        text: PropTypes.string.isRequired,
-        rating: PropTypes.number.isRequired,
-    }).isRequired,
+    feedback: PropTypes.array.isRequired,
 };
 
 export default FeedbackStats;
