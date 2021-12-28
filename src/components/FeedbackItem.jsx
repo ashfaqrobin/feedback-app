@@ -19,7 +19,7 @@ const FeedbackItem = ({ feedback, deleteFeedback }) => {
 
 FeedbackItem.propTypes = {
     feedback: PropTypes.shape({
-        id: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
         text: PropTypes.string.isRequired,
         rating: PropTypes.number.isRequired,
     }).isRequired,
