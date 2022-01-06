@@ -1,12 +1,25 @@
-import { useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import FeedbackContext from '../context/FeedbackContext';
 import Button from './layouts/Button';
 import Card from './layouts/Card';
 import RatingSelect from './RatingSelect';
 
-const FeedbackForm = ({ addFeedback }) => {
+const FeedbackForm = () => {
     const [review, setReview] = useState('');
     const [btnDisabled, setBtnDisabled] = useState(true);
     const [errorMessage, setErrorMessage] = useState('');
+
+    const { addFeedback, feedbackEdit, updateFeedback } =
+        useContext(FeedbackContext);
+
+    // Fill up form on edit
+    useEffect(() => {
+        if (feedbackEdit.edit) {
+            setBtnDisabled(false);
+            setReview(feedbackEdit.item.text);
+            setRating(feedbackEdit.item.rating);
+        }
+    }, [feedbackEdit]);
 
     const handleReviewChange = (e) => {
         if (review.trim().length > 10) {
@@ -36,14 +49,23 @@ const FeedbackForm = ({ addFeedback }) => {
             return;
         }
 
-        const newFeedback = {
-            rating,
-            review,
-        };
+        if (feedbackEdit.edit) {
+            updateFeedback({
+                id: feedbackEdit.item.id,
+                text: review,
+                rating,
+            });
+        } else {
+            const newFeedback = {
+                rating,
+                review,
+            };
 
-        addFeedback(newFeedback);
+            addFeedback(newFeedback);
+        }
 
         setReview('');
+        setBtnDisabled(true);
     };
 
     return (
